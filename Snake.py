@@ -29,6 +29,9 @@ def snake():
     keyX = True
     keyY = True
 
+    snakeX = []
+    snakeY = []
+
     while not gameExit:
         for event in pygame.event.get():
             print(event)
@@ -41,37 +44,47 @@ def snake():
                     lead_y_change = 0
                     keyX = True
                     keyY = False
+                    print("left")
 
                 elif event.key == pygame.K_RIGHT and keyY:
                     lead_x_change = blockSize
                     lead_y_change = 0
                     keyX = True
                     keyY = False
+                    print("right")
 
                 elif event.key == pygame.K_UP and keyX:
                     lead_y_change = -blockSize
                     lead_x_change = 0
                     keyX = False
                     keyY = True
+                    print("up")
 
                 elif event.key == pygame.K_DOWN and keyX:
                     lead_y_change = blockSize
                     lead_x_change = 0
                     keyX = False
                     keyY = True
-
-        if lead_x >= displayX - 20 or lead_x < 0 + 20:
-            lead_x_change = 0
-            keyX = True
-            keyY = False
-
-        if lead_y >= displayY - 20 or lead_y < 0 + 20:
-            lead_y_change = 0
-            keyY = True
-            # keyX = False
+                    print("down")
 
         lead_x += lead_x_change
         lead_y += lead_y_change
+
+        if lead_x >= displayX - 20 or lead_x < 0 + 20:
+            lead_x_change = 0
+            # lead_y_change = blockSize
+            # keyX = True
+            # keyY = False
+
+        if lead_y >= displayY - 20 or lead_y < 0 + 20 :
+            lead_y_change = 0
+            # lead_x_change = blockSize
+            # keyY = True
+            # keyX = False
+
+
+
+        print(lead_x, lead_y)
 
         gameDisplay.fill(white)
         pygame.draw.rect(gameDisplay, black, [lead_x, lead_y, blockSize, blockSize])
