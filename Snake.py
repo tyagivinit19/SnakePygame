@@ -6,54 +6,88 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
 
-gameDisplay = pygame.display.set_mode((800, 600))
+displayX = 800
+displayY = 600
+
+blockSize = 10
+
+FPS = 15
+
+gameDisplay = pygame.display.set_mode((displayX, displayY))
 pygame.display.set_caption("Snake")
-
-gameExit = False
-
-lead_x = 300
-lead_y = 300
-lead_x_change = 0
-lead_y_change = 0
 
 clock = pygame.time.Clock()
 
-while not gameExit:
-    for event in pygame.event.get():
-        print(event)
-        if event.type == pygame.QUIT:
-            gameExit = True
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                lead_x_change = -10
-                lead_y_change = 0
+def snake():
+    gameExit = False
 
-            if event.key == pygame.K_RIGHT:
-                lead_x_change = 10
-                lead_y_change = 0
+    lead_x = displayX / 2
+    lead_y = displayY / 2
+    lead_x_change = 0
+    lead_y_change = 0
+    keyX = True
+    keyY = True
 
-            if event.key == pygame.K_UP:
-                lead_y_change = -10
-                lead_x_change = 0
+    while not gameExit:
+        for event in pygame.event.get():
+            print(event)
+            if event.type == pygame.QUIT:
+                gameExit = True
 
-            if event.key == pygame.K_DOWN:
-                lead_y_change = 10
-                lead_x_change = 0
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT and keyY:
+                    lead_x_change = -blockSize
+                    lead_y_change = 0
+                    keyX = True
+                    keyY = False
 
-        if lead_x >= 800 or lead_x < 0 or lead_y >= 600 or lead_y < 0:
-            gameExit = True
+                elif event.key == pygame.K_RIGHT and keyY:
+                    lead_x_change = blockSize
+                    lead_y_change = 0
+                    keyX = True
+                    keyY = False
 
-    lead_x += lead_x_change
-    lead_y += lead_y_change
+                elif event.key == pygame.K_UP and keyX:
+                    lead_y_change = -blockSize
+                    lead_x_change = 0
+                    keyX = False
+                    keyY = True
 
-    gameDisplay.fill(white)
-    pygame.draw.rect(gameDisplay, black, [lead_x, lead_y, 10, 10])
-    # pygame.draw.rect(gameDisplay, red, [400, 300, 10, 10])
+                elif event.key == pygame.K_DOWN and keyX:
+                    lead_y_change = blockSize
+                    lead_x_change = 0
+                    keyX = False
+                    keyY = True
 
-    pygame.display.update()
+        if lead_x >= displayX - 20 or lead_x < 0 + 20:
+            lead_x_change = 0
+            keyX = True
+            keyY = False
 
-    clock.tick(20)
+        if lead_y >= displayY - 20 or lead_y < 0 + 20:
+            lead_y_change = 0
+            keyY = True
+            # keyX = False
+
+        lead_x += lead_x_change
+        lead_y += lead_y_change
+
+        gameDisplay.fill(white)
+        pygame.draw.rect(gameDisplay, black, [lead_x, lead_y, blockSize, blockSize])
+        pygame.draw.rect(gameDisplay, red, [0, 0, 10, 600])
+        pygame.draw.rect(gameDisplay, red, [0, 0, 800, 10])
+        pygame.draw.rect(gameDisplay, red, [0, 590, 800, 10])
+        pygame.draw.rect(gameDisplay, red, [790, 0, 10, 600])
+
+        # pygame.draw.rect(gameDisplay, red, [400, 300, 10, 10])
+
+        pygame.display.update()
+
+        clock.tick(FPS)
+
+
+snake()
 
 pygame.quit()
 
