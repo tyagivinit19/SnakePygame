@@ -29,6 +29,11 @@ def scoreDisplay(score, color):
     print("msg")
 
 
+def increseLength(snakeX, snakeY):
+    snakeX.append(snakeX[-1] - 10)
+    snakeY.append(snakeY[-1] - 10)
+
+
 def snake():
     gameExit = False
 
@@ -44,8 +49,11 @@ def snake():
 
     score = 0
 
-    snakeX = []
-    snakeY = []
+    image = pygame.image.load("background.png")
+    image = pygame.transform.scale(image, (displayX, displayY))
+
+    snakeX = [lead_x]
+    snakeY = [lead_y]
 
     while not gameExit:
         for event in pygame.event.get():
@@ -82,6 +90,12 @@ def snake():
                     keyY = True
                     print("down")
 
+        snakeX.pop(-1)
+        snakeX.insert(0, lead_x)
+        snakeY.pop(-1)
+        snakeY.insert(0, lead_y)
+
+
         lead_x += lead_x_change
         lead_y += lead_y_change
 
@@ -104,9 +118,13 @@ def snake():
             foodY = randrange(10, 580)
             score = score + 1
             scoreDisplay("you", red)
+            increseLength(snakeX, snakeY)
             # pygame.display.update()
 
         gameDisplay.fill(white)
+        gameDisplay.blit(image, (0, 0))
+        for i in range(1, len(snakeX)):
+            pygame.draw.rect(gameDisplay, black, [snakeX[i], snakeY[i], blockSize, blockSize])
         pygame.draw.rect(gameDisplay, black, [lead_x, lead_y, blockSize, blockSize])
 
         pygame.draw.rect(gameDisplay, red, [0, 0, 10, 600])
