@@ -6,6 +6,7 @@ pygame.init()
 
 white = (255, 255, 255)
 black = (0, 0, 0)
+green = pygame.Color("#00b906")
 red = (255, 0, 0)
 
 displayX = 800
@@ -90,14 +91,12 @@ def snake():
                     keyY = True
                     print("down")
 
-        snakeX.pop(-1)
-        snakeX.insert(0, lead_x)
-        snakeY.pop(-1)
-        snakeY.insert(0, lead_y)
-
-
         lead_x += lead_x_change
         lead_y += lead_y_change
+
+
+
+
 
         if lead_x >= displayX - 20 or lead_x < 0 + 20:
             lead_x_change = 0
@@ -111,6 +110,12 @@ def snake():
             # keyY = True
             # keyX = False
 
+
+        snakeX.pop(-1)
+        snakeX.insert(0, lead_x)
+        snakeY.pop(-1)
+        snakeY.insert(0, lead_y)
+
         # print(lead_x, lead_y)
 
         if foodX - 10 <= lead_x <= foodX + 10 and foodY - 10 <= lead_y <= foodY + 10:
@@ -121,11 +126,11 @@ def snake():
             increseLength(snakeX, snakeY)
             # pygame.display.update()
 
-        gameDisplay.fill(white)
-        gameDisplay.blit(image, (0, 0))
+        gameDisplay.fill(black)
+        # gameDisplay.blit(image, (0, 0))
         for i in range(1, len(snakeX)):
-            pygame.draw.rect(gameDisplay, black, [snakeX[i], snakeY[i], blockSize, blockSize])
-        pygame.draw.rect(gameDisplay, black, [lead_x, lead_y, blockSize, blockSize])
+            pygame.draw.rect(gameDisplay, green, [snakeX[i], snakeY[i], blockSize, blockSize])
+        pygame.draw.rect(gameDisplay, green, [lead_x, lead_y, blockSize, blockSize])
 
         pygame.draw.rect(gameDisplay, red, [0, 0, 10, 600])
         pygame.draw.rect(gameDisplay, red, [0, 0, 800, 10])
