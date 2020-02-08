@@ -1,5 +1,4 @@
 from random import randrange
-
 import pygame
 
 pygame.init()
@@ -50,8 +49,8 @@ def snake():
 
     score = 0
 
-    image = pygame.image.load("background.png")
-    image = pygame.transform.scale(image, (displayX, displayY))
+    # image = pygame.image.load("background.png")
+    # image = pygame.transform.scale(image, (displayX, displayY))
 
     snakeX = [lead_x]
     snakeY = [lead_y]
@@ -94,8 +93,11 @@ def snake():
         lead_x += lead_x_change
         lead_y += lead_y_change
 
-
-
+        if not (lead_y_change == 0 and lead_x_change == 0):
+            snakeX.pop(-1)
+            snakeX.insert(0, lead_x)
+            snakeY.pop(-1)
+            snakeY.insert(0, lead_y)
 
 
         if lead_x >= displayX - 20 or lead_x < 0 + 20:
@@ -109,12 +111,6 @@ def snake():
             # lead_x_change = blockSize
             # keyY = True
             # keyX = False
-
-
-        snakeX.pop(-1)
-        snakeX.insert(0, lead_x)
-        snakeY.pop(-1)
-        snakeY.insert(0, lead_y)
 
         # print(lead_x, lead_y)
 
